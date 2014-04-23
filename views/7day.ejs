@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Charts</title>
+</head>
+<body>
+<div id="main" style="height:500px;width:650px;border:1px solid #ccc;padding:10px;"></div>
+</body>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/echarts-plain.js"></script>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+    $.getJSON('data/stationYieldInfo.json', function (data) {
+
+        var _dates = [];
+        var _vals = [];
+        var unit = data.dataunit;
+        $.each(data.data, function (key, val) {
+            _dates.push(val.date);
+            _vals.push(parseFloat(val.value));
+        });
+
+        myChart.setOption({
+            title: {
+                text: '电站收益图表数据',
+                subtext: '7日数据'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['收益']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: _dates
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} ' + unit
+                    },
+                    splitArea: {show: true}
+                }
+            ],
+            series: [
+                {
+                    name: '收益',
+                    type: 'line',
+                    itemStyle: {
+                        normal: {
+                            lineStyle: {
+                                shadowColor: 'rgba(0,0,0,0.4)',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3
+                            }
+                        }
+                    },
+                    data: _vals,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }
+            ]
+        });
+    });
+</script>
+</html>

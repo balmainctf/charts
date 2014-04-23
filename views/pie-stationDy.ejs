@@ -19,9 +19,7 @@
 
         $.each(data, function (key, val) {
             legendData.push(key);
-
-            var str = "{'value':" + val + ", 'name':'" + key + "'}";
-            _data.push(eval('(' + str + ')'));
+            _data.push({"value": val, "name": key});
         });
 
         myChart.setOption({

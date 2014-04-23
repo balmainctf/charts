@@ -33,6 +33,9 @@ app.get('/',function(req,res){
 
 app.get('/stationDy',function(req,res){
     res.render('pie-stationDy');
+});
+app.get('/7day',function(req,res){
+    res.render('7day');
 })
 
 http.createServer(app).listen(app.get('port'), function(){
