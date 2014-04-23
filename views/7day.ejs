@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Charts</title>
-</head>
-<body>
-<div id="main" style="height:500px;width:650px;border:1px solid #ccc;padding:10px;"></div>
-</body>
-<script src="/js/jquery-1.11.0.min.js"></script>
-<script src="/js/echarts-plain.js"></script>
+<%- include header.ejs%>
+
 <script>
-    var myChart = echarts.init(document.getElementById('main'));
+    $("#7day").addClass('active');
+    var myChart = echarts.init(document.getElementById('echarts'));
 
     $.getJSON('data/stationYieldInfo.json', function (data) {
 
@@ -31,7 +23,7 @@
                 trigger: 'axis'
             },
             legend: {
-                data: ['收益']
+                data: ['收益', 'test1', 'test2', 'test3']
             },
             toolbox: {
                 show: true,
@@ -85,9 +77,91 @@
                             {type: 'average', name: '平均值'}
                         ]
                     }
+                },
+                {
+                    name: 'test1',
+                    type: 'line',
+                    data: [-0.2, 30, 5.7, 11.3, 27.0, 22.0, 24.8]
+                },
+                {
+                    name: 'test2',
+                    type: 'line',
+                    data: [0, 54.6, 3.5, 44.4, 13.5, 17.0, 18.6]
+                },
+                {
+                    name: 'test3',
+                    type: 'line',
+                    data: [3.9, 31.2, 5.7, 86.5, 111.9, 15.2, 17.0]
+                }
+            ]
+        });
+
+
+        $('#highcharts').highcharts({
+            chart: {
+                zoomType: 'x',
+                spacingRight: 20,
+                resetZoomButton: {
+                    position: {
+                        // align: 'right', // by default
+                        // verticalAlign: 'top', // by default
+                        x: 0,
+                        y: -30
+                    }
+                }
+            },
+            title: {
+                text: '电站收益图表数据',
+                x: -20 //center
+            },
+            subtitle: {
+                text: '7日数据',
+                x: -20
+            },
+            xAxis: {
+                categories: _dates
+            },
+            yAxis: {
+                title: {
+                    text: '收益 (' + unit + ')'
+                },
+                plotLines: [
+                    {
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }
+                ]
+            },
+            tooltip: {
+                valueSuffix: unit
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [
+                {
+                    name: '收益',
+                    data: _vals
+                },
+                {
+                    name: 'test1',
+                    data: [-0.2, 30, 5.7, 11.3, 27.0, 22.0, 24.8]
+                },
+                {
+                    name: 'test2',
+                    data: [0, 54.6, 3.5, 44.4, 13.5, 17.0, 18.6]
+                },
+                {
+                    name: 'test3',
+                    data: [3.9, 31.2, 5.7, 86.5, 111.9, 15.2, 17.0]
                 }
             ]
         });
     });
+
 </script>
-</html>
+<%- include footer.ejs%>

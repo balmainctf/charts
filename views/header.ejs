@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Charts</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap-3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/dashboard.css"/>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Charts demo</a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li id="index"><a href="/">首页</a></li>
+                <li id="stationDy"><a href="/stationDy">电站动态数据</a></li>
+                <li id="7day"><a href="/7day">一周收益图</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div id="echarts" style="width: 700px; height: 400px; margin: 0 auto"></div>
+        <div id="highcharts" style="width: 700px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/echarts/echarts-plain.js"></script>
+<script src="/highcharts/highcharts.js"></script>
+<script src="/highcharts/modules/exporting.js"></script>
+<script src="highcharts/themes/grid.js"></script>

@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>电站动态信息图</title>
-</head>
-<body>
-<div id="main" style="height:500px;width:650px;border:1px solid #ccc;padding:10px;"></div>
-</body>
-<script src="/js/jquery-1.11.0.min.js"></script>
-<script src="/js/echarts-plain.js"></script>
+<%- include header.ejs%>
+
 <script>
-    var myChart = echarts.init(document.getElementById('main'));
+    $("#stationDy").addClass('active');
+    var myChart = echarts.init(document.getElementById('echarts'));
 
     $.getJSON('data/stationDynamicInfo.json', function (data) {
         var legendData = [];
@@ -60,4 +52,4 @@
     });
 
 </script>
-</html>
+<%- include footer.ejs%>

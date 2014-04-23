@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var fs = require('fs');
+var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 
@@ -27,17 +28,8 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/',function(req,res){
-    res.render('index',{});
-});
+routes(app);
 
-app.get('/stationDy',function(req,res){
-    res.render('pie-stationDy');
-});
-app.get('/7day',function(req,res){
-    res.render('7day');
-})
-
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });

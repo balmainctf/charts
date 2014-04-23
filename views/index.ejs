@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Charts</title>
-</head>
-<body>
-<div id="main" style="height:500px;width:650px;border:1px solid #ccc;padding:10px;"></div>
-<div id="mainMap" style="height:500px;width:650px;border:1px solid #ccc;padding:10px;"></div>
-</body>
-<script src="/js/echarts-plain.js"></script>
+<%- include header.ejs%>
+
 <script>
-    var myChart = echarts.init(document.getElementById('main'));
+    $("#index").addClass('active');
+    var myChart = echarts.init(document.getElementById('echarts'));
     myChart.setOption({
         tooltip: {
             trigger: 'axis'
@@ -65,7 +57,7 @@
         ]
     });
 
-    var myChart2 = echarts.init(document.getElementById('mainMap'));
+    var myChart2 = echarts.init(document.getElementById('highcharts'));
     myChart2.setOption({
         tooltip: {
             trigger: 'axis',
@@ -174,4 +166,4 @@
         ]
     });
 </script>
-</html>
+<%- include footer.ejs%>
