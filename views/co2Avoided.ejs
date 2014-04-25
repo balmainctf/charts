@@ -1,10 +1,10 @@
 <%- include header.ejs%>
 
 <script>
-    $("#stationDy").addClass('active');
+    $("#co2Avoided").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('data/stationDynamicInfo.json', function (data) {
+    $.getJSON('dynamicInfo', function (data) {
         var legendData = [];
 
         var _data = [];

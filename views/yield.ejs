@@ -1,10 +1,10 @@
 <%- include header.ejs%>
 
 <script>
-    $("#7day").addClass('active');
+    $("#yield").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('data/stationYieldInfo.json', function (data) {
+    $.getJSON('/stationYieldInfo', function (data) {
 
         var _dates = [];
         var _vals = [];
@@ -23,7 +23,7 @@
                 trigger: 'axis'
             },
             legend: {
-                data: ['收益', 'test1', 'test2', 'test3']
+                data: ['收益']
             },
             toolbox: {
                 show: true,
@@ -77,21 +77,6 @@
                             {type: 'average', name: '平均值'}
                         ]
                     }
-                },
-                {
-                    name: 'test1',
-                    type: 'line',
-                    data: [-0.2, 30, 5.7, 11.3, 27.0, 22.0, 24.8]
-                },
-                {
-                    name: 'test2',
-                    type: 'line',
-                    data: [0, 54.6, 3.5, 44.4, 13.5, 17.0, 18.6]
-                },
-                {
-                    name: 'test3',
-                    type: 'line',
-                    data: [3.9, 31.2, 5.7, 86.5, 111.9, 15.2, 17.0]
                 }
             ]
         });

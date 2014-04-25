@@ -1,0 +1,27 @@
+{
+    "code": "1",
+    "msg": "Request succeeds",
+    "sid": "36",
+    "E-Total": {
+        "unit": "MWh",
+        "value": "4.38"
+    },
+    "CO2Avoided": {
+        "unit": "T",
+        "value": "3.5"
+    },
+    "E-Today": {
+        "unit": "0.0",
+        "value": "KWh"
+    },
+
+    "E-Month": {
+        "unit": "KWh",
+        "value": "0.0"
+    },
+    "TotalYield": {
+        "unit": "￥",
+        "value": "2188.21"
+    },
+    "ludt": "2013-04-01 10:43:08"
+} 
