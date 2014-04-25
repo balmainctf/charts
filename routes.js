@@ -11,7 +11,4 @@ module.exports = function (app) {
     app.get('/line', function (req, res) {
         res.render('line');
     });
-    app.get('/line-time',function(req,res){
-       res.render('line-time');
-    });
 }
