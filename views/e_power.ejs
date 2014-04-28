@@ -1,7 +1,7 @@
-<%- include header.ejs%>
+<%- include common/header.ejs%>
 
 <script>
-    $("#index").addClass('active');
+    $("#power").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
     myChart.setOption({
         tooltip: {
@@ -166,4 +166,4 @@
 //        ]
 //    });
 </script>
-<%- include footer.ejs%>
+<%- include common/footer.ejs%>

@@ -3,8 +3,8 @@ var yieldInfo = require('./data/stationYieldInfo.json');
 
 module.exports = function (app) {
 
-    app.get('/', function (req, res) {
-        res.render('index', {title: "Energy & Power"});
+    app.get('/e_power', function (req, res) {
+        res.render('e_power', {title: "Energy & Power"});
     });
 
     app.get('/yield', function (req, res) {
@@ -20,5 +20,9 @@ module.exports = function (app) {
 
     app.get('/dynamicInfo', function (req, res) {
         res.json(dynamicInfo);
+    });
+
+    app.get('/', function (req, res) {
+        res.render('home', {title: 'home'});
     });
 }
