@@ -1,5 +1,6 @@
 var dynamicInfo = require('./data/stationDynamicInfo.json');
 var yieldInfo = require('./data/stationYieldInfo.json');
+var powerInfoByDay = require('./data/powerInfoByDay.json');
 
 module.exports = function (app) {
 
@@ -22,7 +23,21 @@ module.exports = function (app) {
         res.json(dynamicInfo);
     });
 
+    app.get('/powerInfo/byday', function (req, res) {
+        res.json(powerInfoByDay);
+    })
+
     app.get('/', function (req, res) {
-        res.render('home', {title: 'home'});
+
+        res.render('home', {
+                title: 'home',
+                "e_total": dynamicInfo['E-Total'].value + ' ' + dynamicInfo['E-Total'].unit,
+                "e_today": dynamicInfo['E-Today'].value + ' ' + dynamicInfo['E-Today'].unit,
+                "total_yield": dynamicInfo['TotalYield'].value + ' ' + dynamicInfo['TotalYield'].unit,
+                "e_month": dynamicInfo['E-Month'].value + ' ' + dynamicInfo['E-Month'].unit,
+                "co2Avoided": dynamicInfo['CO2Avoided'].value + ' ' + dynamicInfo['CO2Avoided'].unit,
+                "ludt": dynamicInfo.ludt
+            }
+        );
     });
 }

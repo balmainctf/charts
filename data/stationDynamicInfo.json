@@ -4,20 +4,20 @@
     "sid": "36",
     "E-Total": {
         "unit": "MWh",
-        "value": "4.38"
+        "value": "652.38"
     },
     "CO2Avoided": {
         "unit": "T",
         "value": "3.5"
     },
     "E-Today": {
-        "unit": "0.0",
-        "value": "KWh"
+        "unit": "KWh",
+        "value": "10.0"
     },
 
     "E-Month": {
         "unit": "KWh",
-        "value": "0.0"
+        "value": "30.0"
     },
     "TotalYield": {
         "unit": "￥",
