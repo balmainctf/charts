@@ -8,6 +8,9 @@ var http = require('http');
 var path = require('path');
 
 var app = express();
+var oneDay = 86400000;
+
+app.use(express.compress());
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -21,7 +24,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneDay}));
 
 // development only
 if ('development' == app.get('env')) {
