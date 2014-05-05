@@ -138,6 +138,9 @@
                 option.dataZoom.start=0;
                 option.dataZoom.end=50;
                 myChart.setOption(option);
+            }else if(period==='bytotal'){
+                option.series[0].type='line';
+                myChart.setOption(option);
             }
         });
     };
