@@ -16,48 +16,52 @@
     $("#co2Avoided").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('dynamicInfo', function (data) {
-        var legendData = [];
-
-        var _data = [];
+    $.getJSON('co2AvoidedInfo', function (data) {
+        var xdata = [];
+        var ydata = [];
+        data = data.data;
 
         $.each(data, function (key, val) {
-            legendData.push(key);
-            _data.push({"value": val, "name": key});
+            xdata.push(val.date);
+            ydata.push(val.value);
         });
 
         myChart.setOption({
-            title: {
-                text: '电站动态信息',
-                subtext: '纯属虚构',
-                x: 'center'
-            },
             tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                trigger: 'axis'
             },
             legend: {
-                orient: 'vertical',
-                x: 'left',
-                data: legendData
+                data: ['CO2减排']
             },
             toolbox: {
                 show: true,
                 feature: {
                     mark: {show: true},
+                    dataZoom: {show: true},
                     dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
                     restore: {show: true},
                     saveAsImage: {show: true}
                 }
             },
             calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    data: xdata
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    splitArea: {show: true}
+                }
+            ],
             series: [
                 {
-                    name: '动态信息',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', 200],
-                    data: _data
+                    name: 'CO2减排',
+                    type: 'bar',
+                    data: ydata
                 }
             ]
         });
