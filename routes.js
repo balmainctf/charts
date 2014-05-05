@@ -3,8 +3,24 @@ var config = require('./config');
 
 module.exports = function (app) {
 
-    app.get('/e_power', function (req, res) {
-        res.render('e_power', {title: "Energy & Power"});
+    app.get('/e_power/:period', function (req, res) {
+        var period = req.params.period;
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+
+        var format = 'yyyy-mm-dd';
+        var currentDate = year + '-' + month + '-' + day;
+        if (period === 'bymonth') {
+            format = 'yyyy-mm';
+            currentDate = year + '-' + month;
+        } else if (period === 'byyear') {
+            format = 'yyyy';
+            currentDate = year;
+        }
+        res.render('e_power', {title: "Energy & Power", period: period, format: format, currDate: currentDate})
     });
 
     app.get('/yield', function (req, res) {
@@ -14,7 +30,7 @@ module.exports = function (app) {
         res.render('co2Avoided', {title: "CO2 Avoided"});
     });
 
-    app.get('/co2AvoidedInfo/:period/:date', function (req, res) {
+    app.get('/co2AvoidedInfo/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
 
@@ -27,7 +43,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/stationYieldInfo/:period/:date', function (req, res) {
+    app.get('/stationYieldInfo/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
         var url = config.host + 'stationYieldInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
@@ -39,7 +55,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/powerInfo/:period/:date', function (req, res) {
+    app.get('/powerInfo/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
         var url = config.host + 'stationPowerInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
@@ -51,7 +67,7 @@ module.exports = function (app) {
         });
     })
 
-    app.get('/', function (req, res) {
+    app.get('/', function (req, res, next) {
 
         var url = config.host + 'stationDynamicInfo?key=' + config.station_key;
 
