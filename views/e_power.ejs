@@ -15,7 +15,7 @@
     $("#power").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('/powerInfo/byday', function (data) {
+    $.getJSON('/powerInfo/bydays/2014-04-11', function (data) {
         var xdata = [];
         var ydata = [];
         data = data.data;

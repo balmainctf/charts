@@ -16,7 +16,7 @@
     $("#co2Avoided").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('co2AvoidedInfo', function (data) {
+    $.getJSON('co2AvoidedInfo/by7days/2014-04-01', function (data) {
         var xdata = [];
         var ydata = [];
         data = data.data;

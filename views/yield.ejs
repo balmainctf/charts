@@ -15,7 +15,7 @@
     $("#yield").addClass('active');
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('/stationYieldInfo', function (data) {
+    $.getJSON('/stationYieldInfo/bymonth/2014-06', function (data) {
 
         var _dates = [];
         var _vals = [];

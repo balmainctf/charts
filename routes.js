@@ -14,8 +14,11 @@ module.exports = function (app) {
         res.render('co2Avoided', {title: "CO2 Avoided"});
     });
 
-    app.get('/co2AvoidedInfo', function (req, res) {
-        var url = config.host + 'stationCO2AvoidedInfo?key=' + config.station_key + '&period=by7days&date=2014-04-01';
+    app.get('/co2AvoidedInfo/:period/:date', function (req, res) {
+        var period = req.params.period;
+        var date = req.params.date;
+
+        var url = config.host + 'stationCO2AvoidedInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -24,8 +27,10 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/stationYieldInfo', function (req, res) {
-        var url = config.host + 'stationYieldInfo?key=' + config.station_key + '&period=bymonth&date=2014-06';
+    app.get('/stationYieldInfo/:period/:date', function (req, res) {
+        var period = req.params.period;
+        var date = req.params.date;
+        var url = config.host + 'stationYieldInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -34,8 +39,10 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/powerInfo/byday', function (req, res) {
-        var url = config.host + 'stationPowerInfo?key=' + config.station_key + '&period=bydays&date=2014-04-11';
+    app.get('/powerInfo/:period/:date', function (req, res) {
+        var period = req.params.period;
+        var date = req.params.date;
+        var url = config.host + 'stationPowerInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
