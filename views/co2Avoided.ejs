@@ -1,6 +1,6 @@
-<%- include common/header.ejs%>
+<%- include common/header.ejs %>
 <div class="container-fluid">
-    <%- include common/menu.ejs%>
+    <%- include common/menu.ejs %>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <ul class="nav nav-pills">
             <li id="by7days"><a href="/co2Avoided/by7days">7 Days</a></li>
@@ -10,7 +10,7 @@
         </ul>
         <input name="period" id="period" value="<%= period %>" type="hidden"/>
 
-        <%- include common/datepicker.ejs%>
+        <%- include common/datepicker.ejs %>
         <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
     </div>
 </div>
@@ -20,58 +20,101 @@
     var period = $("#period").val();
     $("#" + period).addClass('active');
 
-    var myChart = echarts.init(document.getElementById('echarts'));
+    var date = $("#dtp_input2").val();
 
-    $.getJSON('/co2AvoidedInfo/by7days/2014-04-01', function (data) {
-        var xdata = [];
-        var ydata = [];
-        data = data.data;
+    var startView = 2;
+    var minView = 2;
+    if (period === 'bymonth') {
+        startView = 3;
+        minView = 3;
+    } else if (period === 'byyear') {
+        startView = 4;
+        minView = 4;
+    } else if (period === 'bytotal') {
+        $(".form-group").hide();
+        date = "current";
+    }
 
-        $.each(data, function (key, val) {
-            xdata.push(val.date);
-            ydata.push(val.value);
-        });
-
-        myChart.setOption({
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['CO2减排']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataZoom: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-                {
-                    type: 'category',
-                    data: xdata
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    splitArea: {show: true}
-                }
-            ],
-            series: [
-                {
-                    name: 'CO2减排',
-                    type: 'bar',
-                    data: ydata
-                }
-            ]
-        });
+    $('.form_date').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: startView,
+        minView: minView,
+        forceParse: 0
+    }).on('changeDate', function (ev) {
+        showCharts(period, $("#dtp_input2").val());
     });
 
+    var showCharts = function (period, date) {
+        var myChart = echarts.init(document.getElementById('echarts'));
+
+        myChart.showLoading({
+            text: '正在努力的读取数据中...',
+            effect: 'whirling'
+        });
+
+        $.getJSON('/co2AvoidedInfo/' + period + '/' + date, function (data) {
+            myChart.hideLoading();
+
+            var xdata = [];
+            var ydata = [];
+            var unit = data.dataunit;
+
+            data = data.data;
+
+            $.each(data, function (key, val) {
+                xdata.push(val.date);
+                ydata.push(val.value);
+            });
+
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['CO2减排']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataZoom: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: xdata
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} ' + unit
+                        },
+                        splitArea: {show: true}
+                    }
+                ],
+                series: [
+                    {
+                        name: 'CO2减排',
+                        type: 'bar',
+                        data: ydata
+                    }
+                ]
+            });
+        });
+    };
+    showCharts(period, date);
+
 </script>
-<%- include common/footer.ejs%>
+<%- include common/footer.ejs %>

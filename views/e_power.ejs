@@ -10,7 +10,7 @@
         </ul>
         <input name="period" id="period" value="<%= period %>" type="hidden"/>
 
-       <%- include common/datepicker.ejs%>
+        <%- include common/datepicker.ejs %>
         <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
     </div>
 </div>
@@ -19,6 +19,7 @@
     var period = $("#period").val();
     $("#" + period).addClass('active');
 
+    var date = $("#dtp_input2").val();
     var startView = 2;
     var minView = 2;
     if (period === 'bymonth') {
@@ -29,6 +30,7 @@
         minView = 4;
     } else if (period === 'bytotal') {
         $(".form-group").hide();
+        date = "current";
     }
 
     $('.form_date').datetimepicker({
@@ -41,7 +43,7 @@
         minView: minView,
         forceParse: 0
     }).on('changeDate', function (ev) {
-        showCharts(period, $("#dtp_input2").val() || '2014-05-05');
+        showCharts(period, $("#dtp_input2").val());
     });
 
     var showCharts = function (period, date) {
@@ -122,20 +124,20 @@
             };
             myChart.setOption(option);
 
-            if(period==='bydays'||period==='bymonth'){
-                option.dataZoom.show=true;
-                option.dataZoom.start=0;
-                option.dataZoom.end=50;
+            if (period === 'bydays' || period === 'bymonth') {
+                option.dataZoom.show = true;
+                option.dataZoom.start = 0;
+                option.dataZoom.end = 50;
                 myChart.setOption(option);
-            }else if(period==='bytotal'){
-                option.series[0].type='line';
+            } else if (period === 'bytotal') {
+                option.series[0].type = 'line';
                 myChart.setOption(option);
             }
-        }).error(function(){
-            alert('err');
+        }).error(function () {
+            alert('read time out ,pls try again!');
         });
     };
 
-    showCharts(period, $("#dtp_input2").val());
+    showCharts(period, date);
 </script>
 <%- include common/footer.ejs %>
