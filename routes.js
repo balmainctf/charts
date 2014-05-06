@@ -32,6 +32,11 @@ module.exports = function (app) {
     app.get('/station_evn_info', function (req, res, next) {
         var sdate = req.query.sdate;
         var edate = req.query.edate;
+        if (sdate === '' && edate === '') {
+            sdate = edate = util.format_date(new Date(), 'bydays').value;
+        } else if (sdate === '' || sdate > edate) {
+            sdate = edate;
+        }
         var url = config.host + 'stationEventInfo?key=' + config.station_key + '&sdt=' + sdate + '&edt=' + edate;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {

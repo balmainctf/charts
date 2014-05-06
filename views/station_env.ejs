@@ -30,30 +30,39 @@
         </div>
 
         <table class="table table-hover">
-            <tr id="eventData">
+            <thead>
+            <tr>
                 <th>#ssno</th>
                 <th>eventCode</th>
                 <th>eventType</th>
                 <th>eventTime</th>
             </tr>
+            </thead>
+            <tbody id="eventData"></tbody>
         </table>
     </div>
 </div>
 <script>
     $("#event").addClass('active');
-    $.getJSON('/station_evn_info?sdate=2013-06-15&edate=2013-06-18', function (data) {
-        data = data.data;
-        var trs = "";
-        $.each(data, function (key, val) {
-            trs += "<tr>";
-            trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
-            trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
-            trs += "</tr>";
+
+    var sdate = $("#dtp_start").val();
+    var edate = $("#dtp_end").val();
+
+    var getData = function (sdate, edate) {
+        $.getJSON('/station_evn_info?sdate=' + sdate + '&edate=' + edate, function (data) {
+            data = data.data;
+            var trs = "";
+            $.each(data, function (key, val) {
+                trs += "<tr>";
+                trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
+                trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
+                trs += "</tr>";
+            });
+            $("#eventData").append(trs);
         });
-        $("#eventData").after(trs);
-    }).error(function () {
-        alert('read time out ,pls try again!');
-    });
+    };
+    getData(sdate, edate);
+
 
     $('.form_date_s').datetimepicker({
         language: 'en',
@@ -64,8 +73,6 @@
         startView: 2,
         minView: 2,
         forceParse: 0
-    }).on('changeDate', function (ev) {
-
     });
 
     $('.form_date_e').datetimepicker({
@@ -78,7 +85,14 @@
         minView: 2,
         forceParse: 0
     }).on('changeDate', function (ev) {
-
+        $("#eventData").empty();
+        var _s = $("#dtp_start").val();
+        var _e = $("#dtp_end").val();
+        if (_s.valueOf() > _e.valueOf()) {
+            alert('err! format date');
+        } else {
+            getData(_s, _e);
+        }
     });
 </script>
 <%- include common/footer.ejs %>
