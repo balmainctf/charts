@@ -3,20 +3,26 @@
     <%- include common/menu.ejs%>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <ul class="nav nav-pills">
-            <li class="active"><a href="#">7 Days</a></li>
-            <li><a href="#">12 Months</a></li>
-            <li><a href="#">Year</a></li>
-            <li><a href="#">Total</a></li>
+            <li id="by7days"><a href="/co2Avoided/by7days">7 Days</a></li>
+            <li id="bymonth"><a href="/co2Avoided/bymonth">12 Months</a></li>
+            <li id="byyear"><a href="/co2Avoided/byyear">Year</a></li>
+            <li id="bytotal"><a href="/co2Avoided/bytotal">Total</a></li>
         </ul>
+        <input name="period" id="period" value="<%= period %>" type="hidden"/>
+
+        <%- include common/datepicker.ejs%>
         <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
     </div>
 </div>
 
 <script>
     $("#co2Avoided").addClass('active');
+    var period = $("#period").val();
+    $("#" + period).addClass('active');
+
     var myChart = echarts.init(document.getElementById('echarts'));
 
-    $.getJSON('co2AvoidedInfo/by7days/2014-04-01', function (data) {
+    $.getJSON('/co2AvoidedInfo/by7days/2014-04-01', function (data) {
         var xdata = [];
         var ydata = [];
         data = data.data;

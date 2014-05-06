@@ -10,18 +10,7 @@
         </ul>
         <input name="period" id="period" value="<%= period %>" type="hidden"/>
 
-        <div class="form-group">
-            <label for="dtp_input2" style="padding-top: 5px;padding-left: 0;" class="col-md-2 control-label">Choose
-                Date</label>
-
-            <div class="input-group date form_date col-md-5" data-date="" data-date-format="<%= format %>"
-                 data-link-field="dtp_input2" data-link-format="<%= format %>">
-                <input class="form-control" size="16" type="text" value="" readonly="">
-                <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-            <input type="hidden" id="dtp_input2" value="<%= currDate %>"><br>
-        </div>
+       <%- include common/datepicker.ejs%>
         <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
     </div>
 </div>
@@ -142,6 +131,8 @@
                 option.series[0].type='line';
                 myChart.setOption(option);
             }
+        }).error(function(){
+            alert('err');
         });
     };
 

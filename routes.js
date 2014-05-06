@@ -1,33 +1,27 @@
 var urllib = require('urllib');
 var config = require('./config');
+var util = require('./libs/util');
 
 module.exports = function (app) {
 
     app.get('/e_power/:period', function (req, res) {
         var period = req.params.period;
+        var date = util.format_date(new Date(), period);
 
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-
-        var format = 'yyyy-mm-dd';
-        var currentDate = year + '-' + month + '-' + day;
-        if (period === 'bymonth') {
-            format = 'yyyy-mm';
-            currentDate = year + '-' + month;
-        } else if (period === 'byyear') {
-            format = 'yyyy';
-            currentDate = year;
-        }
-        res.render('e_power', {title: "Energy & Power", period: period, format: format, currDate: currentDate})
+        res.render('e_power', {title: "Energy & Power", period: period, format: date.format, currDate: date.value})
     });
 
-    app.get('/yield', function (req, res) {
-        res.render('yield', {title: "Yield"});
+    app.get('/yield/:period', function (req, res) {
+        var period = req.params.period;
+        var date = util.format_date(new Date(), period);
+
+        res.render('yield', {title: "Yield", period: period, format: date.format, currDate: date.value});
     });
-    app.get('/co2Avoided', function (req, res) {
-        res.render('co2Avoided', {title: "CO2 Avoided"});
+    app.get('/co2Avoided/:period', function (req, res) {
+        var period = req.params.period;
+        var date = util.format_date(new Date(), period);
+
+        res.render('co2Avoided', {title: "CO2 Avoided", period: period, format: date.format, currDate: date.value});
     });
 
     app.get('/co2AvoidedInfo/:period/:date', function (req, res, next) {
