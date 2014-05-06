@@ -1,0 +1,46 @@
+<%- include common/header.ejs %>
+<div class="container-fluid">
+    <%- include common/menu.ejs %>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        <div class="form-group">
+            <label for="dtp_input2" style="padding-top: 5px;padding-left: 0;"
+                   class="col-md-2 control-label">Start</label>
+
+            <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                 data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input class="form-control" size="16" type="text" value="" readonly="">
+                <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input2" value=""><br>
+        </div>
+
+        <div class="form-group">
+            <label for="dtp_input2" style="padding-top: 5px;padding-left: 0;" class="col-md-2 control-label">End</label>
+
+            <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                 data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input class="form-control" size="16" type="text" value="" readonly="">
+                <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input2" value=""><br>
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <th>#ssno</th>
+                <th>eventCode</th>
+                <th>eventType</th>
+                <th>eventTime</th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    $("#event").addClass('active');
+    $.getJSON('/station_evn_info?sdate=2014-05-06&edate=2014-05-06', function (data) {
+
+    });
+</script>
+<%- include common/footer.ejs %>

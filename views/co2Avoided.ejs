@@ -112,6 +112,8 @@
                     }
                 ]
             });
+        }).error(function(){
+            alert('read time out ,pls try again!');
         });
     };
     showCharts(period, date);
