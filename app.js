@@ -2,7 +2,7 @@
  * Created by Ken.Cui on 2014/4/22.
  */
 var express = require('express');
-var fs = require('fs');
+var config=require('./config');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
@@ -13,7 +13,7 @@ var oneDay = 86400000;
 app.use(express.compress());
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || config.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
