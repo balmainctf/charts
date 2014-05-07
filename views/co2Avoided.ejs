@@ -46,8 +46,9 @@
         showCharts(period, $("#dtp_input2").val());
     });
 
+    var myChart = echarts.init(document.getElementById('echarts'));
+
     var showCharts = function (period, date) {
-        var myChart = echarts.init(document.getElementById('echarts'));
 
         myChart.showLoading({
             text: '正在努力的读取数据中...',
