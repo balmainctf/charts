@@ -22,6 +22,9 @@
             height: 60px;
             background-color: #f5f5f5;
         }
+        .alert{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -44,3 +47,18 @@
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/bootstrap-3.1.1/js/bootstrap.min.js"></script>
 <script src="/echarts/echarts-plain.js"></script>
+
+
+<div class="container-fluid">
+    <%- include menu.ejs %>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4>Oh snap! You got an error!</h4>
+            <p>Request time out (default 5s) or response data error, the data is response from solarcloud. Change this and that and try again. . .</p>
+            <p>
+                <button type="button" class="btn btn-danger">Take this action</button>
+                <button type="button" class="btn btn-default">Or do this</button>
+            </p>
+        </div>

@@ -1,7 +1,5 @@
 <%- include common/header.ejs %>
-<div class="container-fluid">
-    <%- include common/menu.ejs %>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
         <ul class="nav nav-pills">
             <li id="bydays"><a href="/e_power/bydays">Days</a></li>
             <li id="bymonth"><a href="/e_power/bymonth">Months</a></li>
@@ -134,7 +132,7 @@
                 myChart.setOption(option);
             }
         }).error(function () {
-            alert('read time out ,pls try again!');
+            $(".alert").css('display','block');
             myChart.clear();
             myChart.dispose();
         });

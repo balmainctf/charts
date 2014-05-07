@@ -1,7 +1,4 @@
 <%- include common/header.ejs %>
-<div class="container-fluid">
-    <%- include common/menu.ejs %>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
         <div class="form-group">
             <!-- start date -->
@@ -59,6 +56,8 @@
                 trs += "</tr>";
             });
             $("#eventData").append(trs);
+        }).error(function(){
+            $(".alert").css('display','block');
         });
     };
     getData(sdate, edate);

@@ -1,7 +1,5 @@
 <%- include common/header.ejs %>
-<div class="container-fluid">
-    <%- include common/menu.ejs %>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
         <div class="row">
             <div class="col-sm-6 col-md-4">
                 <div id="e_today" class="thumbnail">
@@ -46,7 +44,7 @@
         $("#ludt").append(data['ludt']);
 
     }).error(function () {
-        alert('read time out ,pls try again!');
+        $(".alert").css('display','block');
     });
 </script>
 <%- include common/footer.ejs %>
