@@ -47,14 +47,18 @@
 
     var getData = function (sdate, edate) {
         $.getJSON('/station_evn_info?sdate=' + sdate + '&edate=' + edate, function (data) {
-            data = data.data;
+            var content = data.data;
             var trs = "";
-            $.each(data, function (key, val) {
-                trs += "<tr>";
-                trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
-                trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
-                trs += "</tr>";
-            });
+            try{
+                $.each(content, function (key, val) {
+                    trs += "<tr>";
+                    trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
+                    trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
+                    trs += "</tr>";
+                });
+            }catch (e){
+                trs=data.msg;
+            }
             $("#eventData").append(trs);
         }).error(function(){
             $(".alert").css('display','block');
