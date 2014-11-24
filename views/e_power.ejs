@@ -48,7 +48,7 @@
     var showCharts = function (period, date) {
 
         myChart.showLoading({
-            text: '正在努力的读取数据中...',
+            text: 'Loading...',
             effect: 'whirling'
         });
 
@@ -72,7 +72,7 @@
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['发电量']
+                    data: ['Power']
                 },
                 toolbox: {
                     show: true,
@@ -113,7 +113,7 @@
                 ],
                 series: [
                     {
-                        name: '发电量',
+                        name: 'Power',
                         type: 'bar',
                         data: ydata
                     }

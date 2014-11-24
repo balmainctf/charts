@@ -37,7 +37,7 @@ module.exports = function (app) {
         } else if (sdate === '' || sdate > edate) {
             sdate = edate;
         }
-        var url = config.host + 'stationEventInfo?key=' + config.station_key + '&sdt=' + sdate + '&edt=' + edate;
+        var url = config.host + 'getPlantEvent?key=' + config.station_key + '&sdt=' + sdate + '&edt=' + edate;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -50,7 +50,7 @@ module.exports = function (app) {
         var period = req.params.period;
         var date = req.params.date;
 
-        var url = config.host + 'stationCO2AvoidedInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
+        var url = config.host + 'getPlantCO2Avoided?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -62,7 +62,7 @@ module.exports = function (app) {
     app.get('/stationYieldInfo/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
-        var url = config.host + 'stationYieldInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
+        var url = config.host + 'getPlantYield?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -74,7 +74,7 @@ module.exports = function (app) {
     app.get('/powerInfo/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
-        var url = config.host + 'stationPowerInfo?key=' + config.station_key + '&period=' + period + '&date=' + date;
+        var url = config.host + 'getPlantOutput?key=' + config.station_key + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
@@ -90,7 +90,7 @@ module.exports = function (app) {
     });
 
     app.get('/stationDyInfo', function (req, res, next) {
-        var url = config.host + 'stationDynamicInfo?key=' + config.station_key;
+        var url = config.host + 'getPlantOverview?key=' + config.station_key;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);

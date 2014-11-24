@@ -51,7 +51,7 @@
     var showCharts = function (period, date) {
 
         myChart.showLoading({
-            text: '正在努力的读取数据中...',
+            text: 'Loading...',
             effect: 'whirling'
         });
 
@@ -74,7 +74,7 @@
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['CO2减排']
+                    data: ['CO2 Avoided']
                 },
                 toolbox: {
                     show: true,
@@ -105,7 +105,7 @@
                 ],
                 series: [
                     {
-                        name: 'CO2减排',
+                        name: 'CO2 Avoided',
                         type: 'bar',
                         data: ydata
                     }

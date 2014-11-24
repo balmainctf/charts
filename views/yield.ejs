@@ -50,7 +50,7 @@
     var showCharts = function (period, date) {
 
         myChart.showLoading({
-            text: '正在努力的读取数据中...',
+            text: 'Loading...',
             effect: 'whirling'
         });
 
@@ -76,7 +76,7 @@
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['收益']
+                    data: ['Yield']
                 },
                 toolbox: {
                     show: true,
@@ -106,7 +106,7 @@
                 ],
                 series: [
                     {
-                        name: '收益',
+                        name: 'Yield',
                         type: 'line',
                         itemStyle: {
                             normal: {
@@ -121,13 +121,13 @@
                         data: _vals,
                         markPoint: {
                             data: [
-                                {type: 'max', name: '最大值'},
-                                {type: 'min', name: '最小值'}
+                                {type: 'max', name: 'max'},
+                                {type: 'min', name: 'min'}
                             ]
                         },
                         markLine: {
                             data: [
-                                {type: 'average', name: '平均值'}
+                                {type: 'average', name: 'average'}
                             ]
                         }
                     }
