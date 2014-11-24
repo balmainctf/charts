@@ -87,14 +87,14 @@
                 },
                 calculable: true,
                 dataZoom: {
-                    show: false
-//                    height: 20,
+                    show: true,
+                    height: 20,
 //                    backgroundColor: 'rgba(221,160,221,0.5)',
 //                    dataBackgroundColor: 'rgba(138,43,226,0.5)',
 //                    fillerColor: 'rgba(38,143,26,0.6)',
 //                    handleColor: 'rgba(128,43,16,0.8)',
-//                    start: 0,
-//                    end: 10
+                    start: 20,
+                    end: 80
                 },
                 xAxis: [
                     {
@@ -108,7 +108,8 @@
                         axisLabel: {
                             formatter: '{value} ' + unit
                         },
-                        splitArea: {show: true}
+                        splitArea: {show: true},
+                        precision: 1
                     }
                 ],
                 series: [
