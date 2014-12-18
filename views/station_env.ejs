@@ -1,101 +1,105 @@
 <%- include common/header.ejs %>
 
-        <div class="form-group">
-            <!-- start date -->
-            <label for="dtp_start" style="padding-top: 5px;padding-left: 0;"
-                   class="col-md-2 control-label">Start Time</label>
+<div class="form-group">
+    <!-- start date -->
+    <label for="dtp_start" style="padding-top: 5px;padding-left: 0;"
+           class="col-md-2 control-label">Start Time</label>
 
-            <div class="input-group date form_date_s col-md-5" data-date="" data-date-format="yyyy-mm-dd"
-                 data-link-field="dtp_start" data-link-format="yyyy-mm-dd">
-                <input class="form-control" size="16" type="text" value="" readonly="">
+    <div class="input-group date form_date_s col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+         data-link-field="dtp_start" data-link-format="yyyy-mm-dd">
+        <input class="form-control" size="16" type="text" value="" readonly="">
 
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-            <input type="hidden" id="dtp_start" value=""><br>
-
-            <!-- end date -->
-            <label for="dtp_end" style="padding-top: 5px;padding-left: 0;" class="col-md-2 control-label">End
-                Time</label>
-
-            <div class="input-group date form_date_e col-md-5" data-date="" data-date-format="yyyy-mm-dd"
-                 data-link-field="dtp_end" data-link-format="yyyy-mm-dd">
-                <input class="form-control" size="16" type="text" value="" readonly="">
-
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-            <input type="hidden" id="dtp_end" value=""><br>
-        </div>
-
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>#ssno</th>
-                <th>eventCode</th>
-                <th>eventType</th>
-                <th>eventTime</th>
-            </tr>
-            </thead>
-            <tbody id="eventData"></tbody>
-        </table>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
+    <input type="hidden" id="dtp_start" value=""><br>
+
+    <!-- end date -->
+    <label for="dtp_end" style="padding-top: 5px;padding-left: 0;" class="col-md-2 control-label">End
+        Time</label>
+
+    <div class="input-group date form_date_e col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+         data-link-field="dtp_end" data-link-format="yyyy-mm-dd">
+        <input class="form-control" size="16" type="text" value="" readonly="">
+
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+    </div>
+    <input type="hidden" id="dtp_end" value=""><br>
+</div>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#ssno</th>
+        <th>eventCode</th>
+        <th>eventType</th>
+        <th>eventTime</th>
+    </tr>
+    </thead>
+    <tbody id="eventData"></tbody>
+</table>
+</div>
 </div>
 <script>
-    $("#event").addClass('active');
+    $(function () {
 
-    var sdate = $("#dtp_start").val();
-    var edate = $("#dtp_end").val();
 
-    var getData = function (sdate, edate) {
-        $.getJSON('/station_evn_info?sdate=' + sdate + '&edate=' + edate, function (data) {
-            var content = data.data;
-            var trs = "";
-            try{
-                $.each(content, function (key, val) {
-                    trs += "<tr>";
-                    trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
-                    trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
-                    trs += "</tr>";
-                });
-            }catch (e){
-                trs=data.msg;
-            }
-            $("#eventData").append(trs);
-        }).error(function(){
-            $(".alert").css('display','block');
+        $("#event").addClass('active');
+
+        var sdate = $("#dtp_start").val();
+        var edate = $("#dtp_end").val();
+
+        var getData = function (sdate, edate) {
+            $.getJSON('/station_evn_info?sdate=' + sdate + '&edate=' + edate, function (data) {
+                var content = data.data;
+                var trs = "";
+                try {
+                    $.each(content, function (key, val) {
+                        trs += "<tr>";
+                        trs += "<td>" + val.ssno + "</td>" + "<td>" + val.eventCode + "</td>";
+                        trs += "<td>" + val.eventType + "</td>" + "<td>" + val.eventTime + "</td>";
+                        trs += "</tr>";
+                    });
+                } catch (e) {
+                    trs = data.msg;
+                }
+                $("#eventData").append(trs);
+            }).error(function () {
+                $(".alert").css('display', 'block');
+            });
+        };
+        getData(sdate, edate);
+
+
+        $('.form_date_s').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
         });
-    };
-    getData(sdate, edate);
 
-
-    $('.form_date_s').datetimepicker({
-        language: 'en',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-
-    $('.form_date_e').datetimepicker({
-        language: 'en',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    }).on('changeDate', function (ev) {
-        $("#eventData").empty();
-        var _s = $("#dtp_start").val();
-        var _e = $("#dtp_end").val();
-        if (_s.valueOf() > _e.valueOf()) {
-            alert('err! format date');
-        } else {
-            getData(_s, _e);
-        }
-    });
+        $('.form_date_e').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        }).on('changeDate', function (ev) {
+            $("#eventData").empty();
+            var _s = $("#dtp_start").val();
+            var _e = $("#dtp_end").val();
+            if (_s.valueOf() > _e.valueOf()) {
+                alert('err! format date');
+            } else {
+                getData(_s, _e);
+            }
+        });
+    })
 </script>
 <%- include common/footer.ejs %>

@@ -1,148 +1,151 @@
 <%- include common/header.ejs %>
 
-        <ul class="nav nav-pills">
-            <li id="by7days"><a href="/yield/by7days">7 Days</a></li>
-            <li id="bymonth"><a href="/yield/bymonth">12 Months</a></li>
-            <li id="byyear"><a href="/yield/byyear">Year</a></li>
-            <li id="bytotal"><a href="/yield/bytotal">Total</a></li>
-        </ul>
-        <input name="period" id="period" value="<%= period %>" type="hidden"/>
+<ul class="nav nav-pills">
+    <li id="by7days"><a href="/yield/by7days">7 Days</a></li>
+    <li id="bymonth"><a href="/yield/bymonth">12 Months</a></li>
+    <li id="byyear"><a href="/yield/byyear">Year</a></li>
+    <li id="bytotal"><a href="/yield/bytotal">Total</a></li>
+</ul>
+<input name="period" id="period" value="<%= period %>" type="hidden"/>
 
-        <%- include common/datepicker.ejs %>
-        <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
-    </div>
+<%- include common/datepicker.ejs %>
+<div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
+</div>
 </div>
 <script>
-    $("#yield").addClass('active');
-    var period = $("#period").val();
-    $("#" + period).addClass('active');
+    $(function () {
 
-    var date = $("#dtp_input2").val();
 
-    var startView = 2;
-    var minView = 2;
-    if (period === 'bymonth') {
-        startView = 3;
-        minView = 3;
-    } else if (period === 'byyear') {
-        startView = 4;
-        minView = 4;
-    } else if (period === 'bytotal') {
-        $(".form-group").hide();
-        date = "current";
-    }
+        $("#yield").addClass('active');
+        var period = $("#period").val();
+        $("#" + period).addClass('active');
 
-    $('.form_date').datetimepicker({
-        language: 'en',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: startView,
-        minView: minView,
-        forceParse: 0
-    }).on('changeDate', function (ev) {
-        showCharts(period, $("#dtp_input2").val());
-    });
+        var date = $("#dtp_input2").val();
 
-    var myChart = echarts.init(document.getElementById('echarts'));
+        var startView = 2;
+        var minView = 2;
+        if (period === 'bymonth') {
+            startView = 3;
+            minView = 3;
+        } else if (period === 'byyear') {
+            startView = 4;
+            minView = 4;
+        } else if (period === 'bytotal') {
+            $(".form-group").hide();
+            date = "current";
+        }
 
-    var showCharts = function (period, date) {
-
-        myChart.showLoading({
-            text: 'Loading...',
-            effect: 'whirling'
+        $('.form_date').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: startView,
+            minView: minView,
+            forceParse: 0
+        }).on('changeDate', function (ev) {
+            showCharts(period, $("#dtp_input2").val());
         });
 
-        $.getJSON('/stationYieldInfo/' + period + '/' + date, function (data) {
+        var myChart = echarts.init(document.getElementById('echarts'));
 
-            myChart.hideLoading();
+        var showCharts = function (period, date) {
 
-            var _dates = [];
-            var _vals = [];
-            var unit = data.dataunit;
-            $.each(data.data, function (key, val) {
-                _dates.push(val.date);
-                _vals.push(parseFloat(val.value));
+            myChart.showLoading({
+                text: 'Loading...',
+                effect: 'whirling'
             });
 
-            myChart.setOption({
+            $.getJSON('/stationYieldInfo/' + period + '/' + date, function (data) {
+
+                myChart.hideLoading();
+
+                var _dates = [];
+                var _vals = [];
+                var unit = data.dataunit;
+                $.each(data.data, function (key, val) {
+                    _dates.push(val.date);
+                    _vals.push(parseFloat(val.value));
+                });
+
+                myChart.setOption({
 //            title: {
 //                text: '电站收益图表数据'
 //                ,
 //                subtext: '7日数据'
 //            },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['Yield']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: {show: true},
-                        dataView: {show: true, readOnly: false},
-                        magicType: {show: true, type: ['line', 'bar']},
-                        restore: {show: true},
-                        saveAsImage: {show: true}
-                    }
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: _dates
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} ' + unit
-                        },
-                        splitArea: {show: true},
-                        precision: 1
-                    }
-                ],
-                series: [
-                    {
-                        name: 'Yield',
-                        type: 'line',
-                        itemStyle: {
-                            normal: {
-                                lineStyle: {
-                                    shadowColor: 'rgba(0,0,0,0.4)',
-                                    shadowBlur: 5,
-                                    shadowOffsetX: 3,
-                                    shadowOffsetY: 3
-                                }
-                            }
-                        },
-                        data: _vals,
-                        markPoint: {
-                            data: [
-                                {type: 'max', name: 'max'},
-                                {type: 'min', name: 'min'}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: 'average'}
-                            ]
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['Yield']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
                         }
-                    }
-                ]
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: _dates
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} ' + unit
+                            },
+                            splitArea: {show: true},
+                            precision: 1
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Yield',
+                            type: 'line',
+                            itemStyle: {
+                                normal: {
+                                    lineStyle: {
+                                        shadowColor: 'rgba(0,0,0,0.4)',
+                                        shadowBlur: 5,
+                                        shadowOffsetX: 3,
+                                        shadowOffsetY: 3
+                                    }
+                                }
+                            },
+                            data: _vals,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: 'max'},
+                                    {type: 'min', name: 'min'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: 'average'}
+                                ]
+                            }
+                        }
+                    ]
+                });
+
+            }).error(function () {
+                $(".alert").css('display', 'block');
+                myChart.clear();
+                myChart.dispose();
             });
-
-        }).error(function(){
-            $(".alert").css('display','block');
-            myChart.clear();
-            myChart.dispose();
-        });
-    };
-    showCharts(period, date);
-
+        };
+        showCharts(period, date);
+    })
 
 </script>
 <%- include common/footer.ejs %>

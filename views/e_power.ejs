@@ -1,143 +1,150 @@
 <%- include common/header.ejs %>
 
-        <ul class="nav nav-pills">
-            <li id="bydays"><a href="/e_power/bydays">Days</a></li>
-            <li id="bymonth"><a href="/e_power/bymonth">Months</a></li>
-            <li id="byyear"><a href="/e_power/byyear">Year</a></li>
-            <li id="bytotal"><a href="/e_power/bytotal">Total</a></li>
-        </ul>
-        <input name="period" id="period" value="<%= period %>" type="hidden"/>
+<ul class="nav nav-pills">
+    <li id="bydays"><a href="/e_power/bydays">Days</a></li>
+    <li id="bymonth"><a href="/e_power/bymonth">Months</a></li>
+    <li id="byyear"><a href="/e_power/byyear">Year</a></li>
+    <li id="bytotal"><a href="/e_power/bytotal">Total</a></li>
+</ul>
+<input name="period" id="period" value="<%= period %>" type="hidden"/>
 
-        <%- include common/datepicker.ejs %>
-        <div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
-    </div>
+<%- include common/datepicker.ejs %>
+<div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
+</div>
 </div>
 <script>
-    $("#power").addClass('active');
-    var period = $("#period").val();
-    $("#" + period).addClass('active');
+    $(function () {
 
-    var date = $("#dtp_input2").val();
-    var startView = 2;
-    var minView = 2;
-    if (period === 'bymonth') {
-        startView = 3;
-        minView = 3;
-    } else if (period === 'byyear') {
-        startView = 4;
-        minView = 4;
-    } else if (period === 'bytotal') {
-        $(".form-group").hide();
-        date = "current";
-    }
+        $("#power").addClass('active');
+        var period = $("#period").val();
+        $("#" + period).addClass('active');
 
-    $('.form_date').datetimepicker({
-        language: 'en',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: startView,
-        minView: minView,
-        forceParse: 0
-    }).on('changeDate', function (ev) {
-        showCharts(period, $("#dtp_input2").val());
-    });
-    var myChart = echarts.init(document.getElementById('echarts'));
+        var date = $("#dtp_input2").val();
+        var startView = 2;
+        var minView = 2;
+        if (period === 'bymonth') {
+            startView = 3;
+            minView = 3;
+        } else if (period === 'byyear') {
+            startView = 4;
+            minView = 4;
+        } else if (period === 'bytotal') {
+            $(".form-group").hide();
+            date = "current";
+        }
 
-    var showCharts = function (period, date) {
-
-        myChart.showLoading({
-            text: 'Loading...',
-            effect: 'whirling'
+        $('.form_date').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: startView,
+            minView: minView,
+            forceParse: 0
+        }).on('changeDate', function (ev) {
+            showCharts(period, $("#dtp_input2").val());
         });
+        var myChart = echarts.init(document.getElementById('echarts'));
 
-        $.getJSON('/powerInfo/' + period + '/' + date, function (data) {
+        var showCharts = function (period, date) {
 
-            myChart.hideLoading();
-
-            var xdata = [];
-            var ydata = [];
-            var unit = data.dataunit;
-            data = data.data;
-
-            $.each(data, function (key, val) {
-
-                xdata.push(val.time);
-                ydata.push(val.value);
+            $(window).resize(function () {
+                myChart.resize();
             });
 
-            var option = {
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['Power']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: {show: true},
-                        dataZoom: {show: true},
-                        dataView: {show: true, readOnly: false},
-                        magicType: {show: true, type: ['line', 'bar']},
-                        restore: {show: true},
-                        saveAsImage: {show: true}
-                    }
-                },
-                calculable: true,
-                dataZoom: {
-                    show: true,
-                    height: 20,
+            myChart.showLoading({
+                text: 'Loading...',
+                effect: 'whirling'
+            });
+
+            $.getJSON('/powerInfo/' + period + '/' + date, function (data) {
+
+                myChart.hideLoading();
+
+                var xdata = [];
+                var ydata = [];
+                var unit = data.dataunit;
+                data = data.data;
+
+                $.each(data, function (key, val) {
+
+                    xdata.push(val.time);
+                    ydata.push(val.value);
+                });
+
+                var option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['Power']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataZoom: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    dataZoom: {
+                        show: true,
+//                    height: 20,
 //                    backgroundColor: 'rgba(221,160,221,0.5)',
 //                    dataBackgroundColor: 'rgba(138,43,226,0.5)',
 //                    fillerColor: 'rgba(38,143,26,0.6)',
 //                    handleColor: 'rgba(128,43,16,0.8)',
-                    start: 20,
-                    end: 80
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        data: xdata
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} ' + unit
-                        },
-                        splitArea: {show: true},
-                        precision: 1
-                    }
-                ],
-                series: [
-                    {
-                        name: 'Power',
-                        type: 'bar',
-                        data: ydata
-                    }
-                ]
-            };
-            myChart.setOption(option);
-
-            if (period === 'bydays' || period === 'bymonth') {
-                option.dataZoom.show = true;
-                option.dataZoom.start = 0;
-                option.dataZoom.end = 50;
+                        start: 20,
+                        end: 80
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: xdata
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} ' + unit
+                            },
+                            splitArea: {show: true},
+                            precision: 1
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Power',
+                            type: 'bar',
+                            data: ydata
+                        }
+                    ]
+                };
                 myChart.setOption(option);
-            } else if (period === 'bytotal') {
-                option.series[0].type = 'line';
-                myChart.setOption(option);
-            }
-        }).error(function () {
-            $(".alert").css('display','block');
-            myChart.clear();
-            myChart.dispose();
-        });
-    };
 
-    showCharts(period, date);
+                if (period === 'bydays' || period === 'bymonth') {
+                    option.dataZoom.show = true;
+                    option.dataZoom.start = 0;
+                    option.dataZoom.end = 50;
+                    myChart.setOption(option);
+                } else if (period === 'bytotal') {
+                    option.series[0].type = 'line';
+                    myChart.setOption(option);
+                }
+            }).error(function () {
+                $(".alert").css('display', 'block');
+                myChart.clear();
+                myChart.dispose();
+            });
+        };
+
+        showCharts(period, date);
+    })
 </script>
 <%- include common/footer.ejs %>

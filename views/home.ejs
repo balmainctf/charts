@@ -1,50 +1,54 @@
 <%- include common/header.ejs %>
 
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <div id="e_today" class="thumbnail">
-                    <h3>E-Today：</h3>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div id="e_month" class="thumbnail">
-                    <h3>E-Month：</h3>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div id="e_total" class="thumbnail">
-                    <h3>E-Total：</h3>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div id="totalYield" class="thumbnail">
-                    <h3>Total Yield：</h3>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div id="co2Avoided" class="thumbnail">
-                    <h3>CO2 Avoided：</h3>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <div id="e_today" class="thumbnail">
+            <h3>E-Today：</h3>
         </div>
-
-        <p id="ludt">latest update: </p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div id="e_month" class="thumbnail">
+            <h3>E-Month：</h3>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div id="e_total" class="thumbnail">
+            <h3>E-Total：</h3>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div id="totalYield" class="thumbnail">
+            <h3>Total Yield：</h3>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div id="co2Avoided" class="thumbnail">
+            <h3>CO2 Avoided：</h3>
+        </div>
     </div>
 </div>
 
+<p id="ludt">latest update: </p>
+</div>
+</div>
+
 <script>
-    $("#index").addClass('active');
-    $.getJSON('/stationDyInfo', function (data) {
+    $(function () {
 
-        $("#e_today > h3").append(data['E-Today'].value + ' ' + data['E-Today'].unit);
-        $("#e_month > h3").append(data['E-Month'].value + ' ' + data['E-Month'].unit);
-        $("#e_total > h3").append(data['E-Total'].value + ' ' + data['E-Total'].unit);
-        $("#totalYield > h3").append(data['TotalYield'].value + ' ' + data['TotalYield'].unit);
-        $("#co2Avoided > h3").append(data['CO2Avoided'].value + ' ' + data['CO2Avoided'].unit);
-        $("#ludt").append(data['ludt']);
 
-    }).error(function () {
-        $(".alert").css('display','block');
-    });
+        $("#index").addClass('active');
+        $.getJSON('/stationDyInfo', function (data) {
+
+            $("#e_today > h3").append(data['E-Today'].value + ' ' + data['E-Today'].unit);
+            $("#e_month > h3").append(data['E-Month'].value + ' ' + data['E-Month'].unit);
+            $("#e_total > h3").append(data['E-Total'].value + ' ' + data['E-Total'].unit);
+            $("#totalYield > h3").append(data['TotalYield'].value + ' ' + data['TotalYield'].unit);
+            $("#co2Avoided > h3").append(data['CO2Avoided'].value + ' ' + data['CO2Avoided'].unit);
+            $("#ludt").append(data['ludt']);
+
+        }).error(function () {
+            $(".alert").css('display', 'block');
+        });
+    })
 </script>
 <%- include common/footer.ejs %>
