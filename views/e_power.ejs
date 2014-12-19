@@ -1,19 +1,30 @@
 <%- include common/header.ejs %>
+<h1 class="page-header">Power</h1>
 
 <ul class="nav nav-pills">
-    <li id="bydays"><a href="/e_power/bydays">Days</a></li>
-    <li id="bymonth"><a href="/e_power/bymonth">Months</a></li>
-    <li id="byyear"><a href="/e_power/byyear">Year</a></li>
-    <li id="bytotal"><a href="/e_power/bytotal">Total</a></li>
+    <li id="bydays"><a href="/e_power/bydays">Day</a></li>
+    <li id="bymonth"><a href="/e_power/bymonth">Daily</a></li>
+    <li id="byyear"><a href="/e_power/byyear">Monthly</a></li>
+    <li id="bytotal"><a href="/e_power/bytotal">Annual</a></li>
 </ul>
 <input name="period" id="period" value="<%= period %>" type="hidden"/>
 
 <%- include common/datepicker.ejs %>
-<div id="echarts" style="width: 888px; height: 400px; margin: 0"></div>
+<div id="echarts" style="width: 100%; height: 400px; margin: 0"></div>
+
+<hr/>
+<footer>
+    <div class="footer-inner">
+        2014 &copy; Jiangsu Zeversolar New Energy Co.,Ltd
+    </div>
+</footer>
 </div>
 </div>
 <script>
     $(function () {
+
+        var dateFormat="YYYY-MM-DD";
+        var dateType = "days";
 
         $("#power").addClass('active');
         var period = $("#period").val();
@@ -25,9 +36,13 @@
         if (period === 'bymonth') {
             startView = 3;
             minView = 3;
+            dateFormat='YYYY-MM';
+            dateType='months';
         } else if (period === 'byyear') {
             startView = 4;
             minView = 4;
+            dateFormat='YYYY';
+            dateType='years';
         } else if (period === 'bytotal') {
             $(".form-group").hide();
             date = "current";
@@ -41,9 +56,24 @@
             todayHighlight: 1,
             startView: startView,
             minView: minView,
-            forceParse: 0
+            forceParse: 0,
+            pickerPosition: "bottom"
         }).on('changeDate', function (ev) {
             showCharts(period, $("#dtp_input2").val());
+        });
+        $(".prepDate").on('click', function () {
+            var currDate = $("#dtp_input2").val();
+            var now = moment(currDate).subtract(1,dateType).format(dateFormat);
+
+            $("#dtp_input2").val(now);
+            $('.form_date').trigger('changeDate');
+        });
+        $(".nextDate").on('click', function () {
+            var currDate = $("#dtp_input2").val();
+            var now = moment(currDate).add(1,dateType).format(dateFormat);
+
+            $("#dtp_input2").val(now);
+            $('.form_date').trigger('changeDate');
         });
         var myChart = echarts.init(document.getElementById('echarts'));
 
@@ -54,6 +84,8 @@
             });
 
             myChart.showLoading({
+                x:130,
+                y:50,
                 text: 'Loading...',
                 effect: 'whirling'
             });
@@ -80,61 +112,50 @@
                     legend: {
                         data: ['Power']
                     },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {show: true},
-                            dataZoom: {show: true},
-                            dataView: {show: true, readOnly: false},
-                            magicType: {show: true, type: ['line', 'bar']},
-                            restore: {show: true},
-                            saveAsImage: {show: true}
-                        }
+                    grid: {
+                        x: 30,
+                        y: 25,
+                        x2: 1,
+                        y2: 30
                     },
-                    calculable: true,
-                    dataZoom: {
-                        show: true,
-//                    height: 20,
-//                    backgroundColor: 'rgba(221,160,221,0.5)',
-//                    dataBackgroundColor: 'rgba(138,43,226,0.5)',
-//                    fillerColor: 'rgba(38,143,26,0.6)',
-//                    handleColor: 'rgba(128,43,16,0.8)',
-                        start: 20,
-                        end: 80
-                    },
+
+                    calculable: false,
+
                     xAxis: [
                         {
                             type: 'category',
-                            data: xdata
+                            data: xdata,
+                            boundaryGap: true
                         }
                     ],
                     yAxis: [
                         {
                             type: 'value',
+                            name: unit,
                             axisLabel: {
-                                formatter: '{value} ' + unit
+                                formatter: '{value}'
                             },
-                            splitArea: {show: true},
-                            precision: 1
+                            splitArea: {show: false},
+                            precision: 1,
+                            splitNumber:5
                         }
                     ],
                     series: [
                         {
                             name: 'Power',
                             type: 'bar',
+                            smooth: true,
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
                             data: ydata
                         }
                     ]
                 };
                 myChart.setOption(option);
 
-                if (period === 'bydays' || period === 'bymonth') {
-                    option.dataZoom.show = true;
-                    option.dataZoom.start = 0;
-                    option.dataZoom.end = 50;
-                    myChart.setOption(option);
-                } else if (period === 'bytotal') {
+                if (period === 'bydays' || period === 'bytotal') {
+
                     option.series[0].type = 'line';
+
                     myChart.setOption(option);
                 }
             }).error(function () {

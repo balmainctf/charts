@@ -85,8 +85,8 @@ module.exports = function (app) {
 
     app.get('/', function (req, res) {
 
-        res.render('home', {title: 'Station Dynamic Info'});
-
+//        res.render('home', {title: 'Station Dynamic Info'});
+        res.redirect('/e_power/bydays');
     });
 
     app.get('/stationDyInfo', function (req, res, next) {

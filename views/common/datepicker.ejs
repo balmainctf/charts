@@ -1,12 +1,14 @@
 <div class="form-group">
-    <label for="dtp_input2" style="padding-top: 5px;padding-left: 0;" class="col-md-2 control-label">Choose
-        Date</label>
 
-    <div class="input-group date form_date col-md-5" data-date="" data-date-format="<%= format %>"
+    <div class="input-group date col-md-5" data-date="" data-date-format="<%= format %>"
          data-link-field="dtp_input2" data-link-format="<%= format %>">
-        <input class="form-control" size="16" type="text" value="" readonly="">
-        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+        <span class="input-group-addon prepDate"><span class="glyphicon glyphicon-chevron-left"></span></span>
+        <input class="form-control form_date" size="16" type="text" value="<%= currDate %>" readonly id="dtp_input2"
+               data-date-format="<%= format %>"
+               data-link-format="<%= format %>">
+        <span class="input-group-addon nextDate"><span class="glyphicon glyphicon-chevron-right"></span></span>
+
     </div>
-    <input type="hidden" id="dtp_input2" value="<%= currDate %>"><br>
+
 </div>
