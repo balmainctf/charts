@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width user-scalable=no">
     <title><%= title%></title>
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" media="screen">
+    <!--<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" media="screen">-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/style/bootstrap-datetimepicker.min.css" media="screen"/>
     <link rel="stylesheet" href="/style/dashboard.css"/>
     <style>
@@ -42,7 +43,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/">Dashboard</a></li>
+                <li><a href="/">Overview</a></li>
                 <li><a href="/e_power/bydays">Power&Energy</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>
@@ -54,11 +55,12 @@
     </div>
 </div>
 
-<script src="/js/jquery-1.11.1.min.js"></script>
+<!--<script src="/js/jquery-1.11.1.min.js"></script>-->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
-<div class="container-fluid">
-    <%- include menu.ejs %>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="container">
+
+    <div class="main">
 
         <div class="alert alert-danger fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
