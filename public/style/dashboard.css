@@ -99,11 +99,66 @@ body {
     border-radius: 50%;
 }
 
-.nav.nav-pills{
+.nav.nav-pills {
     margin-bottom: 20px;
 }
-footer{
-    clear:left;
+
+footer {
+    clear: left;
     padding: 8px 20px 5px 20px;
     font-size: 12px;
+}
+
+body {
+    max-width: 100%;
+    margin: auto;
+    background: #eee;
+}
+
+img {
+    width: 100%;
+}
+
+.btn {
+    color: #fff;
+    background: #5bc102;
+    border-color: #5bc102;
+    margin-top: 20px;
+}
+
+.row {
+    margin-top: 15px;
+    padding: 20px 10px;
+    background: #fff;
+}
+
+.details .desc {
+    text-align: left;
+    font-size: 20px;
+    letter-spacing: 0;
+    font-weight: 300;
+    color: #888;
+}
+
+.details .number {
+    padding-top: 15px;
+    text-align: left;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -1px;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #5bc102;
+}
+
+.details .number i {
+    font-size: 14px;
+    color: #888;
+    font-weight: normal;
+}
+
+.title {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #888;
 }

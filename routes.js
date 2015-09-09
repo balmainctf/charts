@@ -83,10 +83,18 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/', function (req, res) {
+    app.get('/list', function (req, res) {
 
         res.render('home', {title: 'Station Dynamic Info'});
 //        res.redirect('/e_power/bydays');
+    });
+
+    app.get('/',function(req,res){
+        res.render('index',{title:'Zevercloud - Index'})
+    });
+
+    app.get('/login',function(req,res){
+        res.render('login');
     });
 
     app.get('/stationDyInfo', function (req, res, next) {

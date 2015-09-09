@@ -75,7 +75,7 @@
             $("#dtp_input2").val(now);
             $('.form_date').trigger('changeDate');
         });
-        var myChart = echarts.init(document.getElementById('echarts'));
+        var myChart = echarts.init(document.getElementById('echarts'),theme);
 
         var showCharts = function (period, date) {
 
