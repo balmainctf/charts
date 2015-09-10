@@ -105,17 +105,19 @@ body {
 
 footer {
     clear: left;
-    padding: 8px 20px 5px 20px;
+    padding: 18px 20px 15px 20px;
     font-size: 12px;
+    text-align: center;
 }
 
 body {
     max-width: 100%;
     margin: auto;
-    background: #eee;
+    background: #f4f4f4;
 }
 
 img {
+
     width: 100%;
 }
 
@@ -123,12 +125,12 @@ img {
     color: #fff;
     background: #5bc102;
     border-color: #5bc102;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .row {
-    margin-top: 15px;
-    padding: 20px 10px;
+    margin-top: 22px;
+    padding: 10px 10px 20px;
     background: #fff;
 }
 
@@ -137,7 +139,7 @@ img {
     font-size: 20px;
     letter-spacing: 0;
     font-weight: 300;
-    color: #888;
+    color: #666;
 }
 
 .details .number {
@@ -153,12 +155,36 @@ img {
 
 .details .number i {
     font-size: 14px;
-    color: #888;
+    color: #666;
     font-weight: normal;
 }
 
 .title {
     margin-top: 10px;
-    font-size: 20px;
-    color: #888;
+    font-size: 18px;
+    color: #666;
+}
+
+.title + .desc {
+    color: #bdbdbd;
+}
+
+.col-xs-4:nth-child(2) {
+    padding: 0;
+}
+
+.portfolio-info {
+    float: left;
+    color: #616161;
+    font-size: 12px;
+    padding: 0 5px;
+
+}
+.portfolio-info span {
+    color: #16a1f2;
+    display: inline-block;
+    margin-top: 0;
+}
+.portfolio-block img{
+    max-width: 80px;
 }

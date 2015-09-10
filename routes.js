@@ -97,6 +97,14 @@ module.exports = function (app) {
         res.render('login');
     });
 
+    app.post('/login',function(req,res){
+        res.redirect('/e_power/bydays');
+    });
+
+    app.get('/plant',function(req,res){
+       res.render('plant');
+    });
+
     app.get('/stationDyInfo', function (req, res, next) {
         var url = config.host + 'getPlantOverview?key=' + config.station_key;
         urllib.request(url, {dataType: 'json'}, function (err, data) {

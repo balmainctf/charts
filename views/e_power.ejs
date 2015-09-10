@@ -23,7 +23,7 @@
 <script>
     $(function () {
 
-        var dateFormat="YYYY-MM-DD";
+        var dateFormat = "YYYY-MM-DD";
         var dateType = "days";
 
         $("#power").addClass('active');
@@ -36,13 +36,13 @@
         if (period === 'bymonth') {
             startView = 3;
             minView = 3;
-            dateFormat='YYYY-MM';
-            dateType='months';
+            dateFormat = 'YYYY-MM';
+            dateType = 'months';
         } else if (period === 'byyear') {
             startView = 4;
             minView = 4;
-            dateFormat='YYYY';
-            dateType='years';
+            dateFormat = 'YYYY';
+            dateType = 'years';
         } else if (period === 'bytotal') {
             $(".form-group").hide();
             date = "current";
@@ -63,19 +63,19 @@
         });
         $(".prepDate").on('click', function () {
             var currDate = $("#dtp_input2").val();
-            var now = moment(currDate).subtract(1,dateType).format(dateFormat);
+            var now = moment(currDate).subtract(1, dateType).format(dateFormat);
 
             $("#dtp_input2").val(now);
             $('.form_date').trigger('changeDate');
         });
         $(".nextDate").on('click', function () {
             var currDate = $("#dtp_input2").val();
-            var now = moment(currDate).add(1,dateType).format(dateFormat);
+            var now = moment(currDate).add(1, dateType).format(dateFormat);
 
             $("#dtp_input2").val(now);
             $('.form_date').trigger('changeDate');
         });
-        var myChart = echarts.init(document.getElementById('echarts'),theme);
+        var myChart = echarts.init(document.getElementById('echarts'), theme);
 
         var showCharts = function (period, date) {
 
@@ -84,8 +84,8 @@
             });
 
             myChart.showLoading({
-                x:130,
-                y:50,
+                x: 150,
+                y: 150,
                 text: 'Loading...',
                 effect: 'whirling'
             });
@@ -124,6 +124,9 @@
                     xAxis: [
                         {
                             type: 'category',
+                            splitLine: {
+                                show: false
+                            },
                             data: xdata,
                             boundaryGap: true
                         }
