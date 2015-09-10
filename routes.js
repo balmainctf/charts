@@ -98,7 +98,7 @@ module.exports = function (app) {
     });
 
     app.post('/login',function(req,res){
-        res.redirect('/e_power/bydays');
+        res.redirect('/plant');
     });
 
     app.get('/plant',function(req,res){
