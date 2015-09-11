@@ -185,6 +185,9 @@ img {
     display: inline-block;
     margin-top: 0;
 }
+.portfolio-block{
+    cursor: pointer;
+}
 .portfolio-block img{
     max-width: 80px;
 }

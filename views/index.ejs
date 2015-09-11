@@ -40,8 +40,8 @@
                 <div class="desc">
                     E-Total
                 </div>
-                <div class="number">
-                    26.01 <i>GWh</i>
+                <div class="etotal number">
+
                 </div>
             </div>
         </div>
@@ -50,8 +50,8 @@
                 <div class="desc">
                     CO2 Avoid
                 </div>
-                <div class="number">
-                    22190.1 <i>T</i>
+                <div class="co2 number">
+
                 </div>
             </div>
         </div>
@@ -82,5 +82,16 @@
 
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+ $(function(){
+     $.getJSON('/data/total',function(data){
+         var $etotal = $('.etotal.number'),$CO2=$('.co2.number');
+         $etotal.text(data.ETotal).append('<i>&nbsp; '+data.ETotal_unit+'</i>');
+         $CO2.text(data.Co2Total).append('<i>&nbsp;'+data.Co2Total_unit+'</i>');
+     })
+ })
+</script>
+
 </body>
 </html>

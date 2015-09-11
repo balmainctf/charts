@@ -89,20 +89,36 @@ module.exports = function (app) {
 //        res.redirect('/e_power/bydays');
     });
 
-    app.get('/',function(req,res){
-        res.render('index',{title:'Zevercloud - Index'})
+    app.get('/', function (req, res) {
+        res.render('index', {title: 'Zevercloud - Index'})
+    });
+    app.get('/data/total', function (req, res, next) {
+        var url = config.host + 'totalview';
+        urllib.request(url, {dataType: 'json'}, function (err, data) {
+            if (err) {
+                return next(err);
+            }
+            res.json(data);
+        });
     });
 
-    app.get('/login',function(req,res){
+    app.get('/login', function (req, res) {
         res.render('login');
     });
 
-    app.post('/login',function(req,res){
-        res.redirect('/plant');
+    app.post('/login', function (req, res) {
+        res.redirect('/plant?userId=116');
     });
 
-    app.get('/plant',function(req,res){
-       res.render('plant');
+    app.get('/plant', function (req, res, next) {
+        var url = config.host + 'plant?userid=' + req.query.userId;
+        urllib.request(url, {dataType: 'json'}, function (err, data) {
+            if (err) {
+                return next(err);
+            }
+            res.render('plant', {plants: data});
+        });
+
     });
 
     app.get('/stationDyInfo', function (req, res, next) {

@@ -30,73 +30,49 @@
 <div class="container">
     <div class="main">
         <h4 class="page-header">Plant List</h4>
-
+        <% plants.forEach(function(plant, index){ %>
         <div class="row portfolio-block">
-            <h4>Demo Plant</h4>
+            <h4><%= plant.name %></h4>
 
             <div class="col-xs-4  portfolio-text">
-                <img class="img-rounded" src="http://solarcloud.zeversolar.com/res/def/icon/plant04.jpg" alt="">
+                <img class="img-rounded" src="http://www.zevercloud.com<%= plant.iconURL %>" alt="">
 
             </div>
             <div class="col-xs-8 portfolio-stat">
                 <div class="portfolio-info">
                     E-Today
                     <span>
-                        0.72KWh
+                        <%= plant.etoday %> <%= plant.etodayUnit %>
                     </span>
                 </div>
                 <div class="portfolio-info">
                     E-Total
                     <span>
-                        6.62MWh
+                        <%= plant.etotal %> <%= plant.etotalUnit %>
                     </span>
                 </div>
 
                 <div class="portfolio-info">
                     数据更新时间
                     <span>
-                        2014-06-04 09:16:47
+                        <%= plant.ludt %>
                     </span>
                 </div>
             </div>
             <i class="share_station fa fa-group"></i>
 
         </div>
-        <div class="row portfolio-block">
-            <h4>应用测试12</h4>
-
-            <div class="col-xs-4  portfolio-text">
-
-                <img class="img-rounded" src="http://solarcloud.zeversolar.com/res/def/icon/plant01.jpg" alt="">
-
-            </div>
-            <div class="col-xs-8 portfolio-stat">
-
-                <div class="portfolio-info">
-                    E-Today
-                    <span>
-                        0.0KWh
-                    </span>
-                </div>
-                <div class="portfolio-info">
-                    E-Total
-                    <span>
-                        20.83MWh
-                    </span>
-                </div>
-
-                <div class="portfolio-info">
-                    数据更新时间
-                    <span>
-                        2014-03-04 08:16:47
-                    </span>
-                </div>
-            </div>
-
-        </div>
+        <% }) %>
     </div>
 </div>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('.portfolio-block').click(function () {
+            window.location.href = '/e_power/bydays'
+        })
+    })
+</script>
 </body>
 </html>
