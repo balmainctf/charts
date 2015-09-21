@@ -23,6 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
+app.use(express.session({
+    secret:'echart',
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},
+}));
 
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneDay}));
 
