@@ -51,8 +51,55 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
+app.use(function (req, res, next) {
+    var domain = require('domain').create();
+    domain.on('error', function (err) {
+        console.error('DOMAIN ERROR CAUGHT\n', err.stack);
+        try {
+            //5秒内进行故障保护性关机
+            setTimeout(function () {
+                console.error('Failsafe shutdown.');
+                process.exit(1);
+            }, 5000);
+
+            //从集群中断开
+            var worker = require('cluster').worker;
+            if (worker) worker.disconnect();
+            server.close();
+
+            try {
+                //尝试使用Express错误路由
+                next(err);
+            } catch (error) {
+                console.error('Express error mechanism failed.\n', error.stack);
+                res.statusCode(500);
+                res.setHeader('content-type', 'text-plain');
+                res.end('Server error.');
+            }
+        } catch (error) {
+            console.error('Unable to send 500 response.\n', error.stack);
+        }
+    });
+
+    domain.add(req);
+    domain.add(res);
+
+    domain.run(next);
+});
+
 routes(app);
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
+var server;
+function startServer() {
+    server = http.createServer(app).listen(app.get('port'), function () {
+        console.log('Express started in ' + app.get('env') + ' mode on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+    });
+}
+
+if (require.main === module) {
+    //应用程序直接运行；启动应用服务器
+    startServer();
+} else {
+    //应用程序作为一个模块引入；导出函数
+    module.exports = startServer;
+}
