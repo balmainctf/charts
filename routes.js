@@ -4,17 +4,26 @@ var util = require('./libs/util');
 
 module.exports = function (app) {
 
-    app.get('/e_power/:period', function (req, res) {
+    app.get('/plant/:sid/e_power/:period', function (req, res) {
         var period = req.params.period;
+        var sid = req.params.sid;
         var date = util.format_date(new Date(), period);
 
-        res.render('e_power', {title: "Energy & Power", period: period, format: date.format, currDate: date.value})
+        res.render('e_power', {
+            title: "Energy & Power",
+            period: period,
+            sid: sid,
+            format: date.format,
+            currDate: date.value
+        })
     });
 
-    app.get('/powerInfo/:period/:date', function (req, res, next) {
+    app.get('/:sid/power/:period/:date', function (req, res, next) {
         var period = req.params.period;
         var date = req.params.date;
-        var url = config.host + 'getPlantOutput?key=' + config.station_key + '&period=' + period + '&date=' + date;
+        var sid = req.params.sid;
+
+        var url = config.host + 'power?sid=' + sid + '&period=' + period + '&date=' + date;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);

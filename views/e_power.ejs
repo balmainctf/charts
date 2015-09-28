@@ -2,12 +2,13 @@
 <h4 class="page-header">Power&Energy</h4>
 
 <ul class="nav nav-pills">
-    <li id="bydays"><a href="/e_power/bydays">Day</a></li>
-    <li id="bymonth"><a href="/e_power/bymonth">Daily</a></li>
-    <li id="byyear"><a href="/e_power/byyear">Monthly</a></li>
-    <li id="bytotal"><a href="/e_power/bytotal">Annual</a></li>
+    <li id="bydays"><a href="/plant/<%= sid %>/e_power/bydays">Day</a></li>
+    <li id="bymonth"><a href="/plant/<%= sid %>/e_power/bymonth">Daily</a></li>
+    <li id="byyear"><a href="/plant/<%= sid %>/e_power/byyear">Monthly</a></li>
+    <li id="bytotal"><a href="/plant/<%= sid %>/e_power/bytotal">Annual</a></li>
 </ul>
 <input name="period" id="period" value="<%= period %>" type="hidden"/>
+<input name="sid" id="sid" value="<%= sid %>" type="hidden"/>
 
 <%- include common/datepicker.ejs %>
 <div id="echarts" style="width: 100%; height: 400px; margin: 0"></div>
@@ -23,6 +24,7 @@
 <script>
     $(function () {
 
+        var sid = $('#sid').val();
         var dateFormat = "YYYY-MM-DD";
         var dateType = "days";
 
@@ -90,7 +92,7 @@
                 effect: 'whirling'
             });
 
-            $.getJSON('/powerInfo/' + period + '/' + date, function (data) {
+            $.getJSON('/' + sid + '/power/' + period + '/' + date, function (data) {
 
                 myChart.hideLoading();
 
