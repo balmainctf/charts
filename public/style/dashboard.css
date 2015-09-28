@@ -174,20 +174,49 @@ img {
 }
 
 .portfolio-info {
-    float: left;
+    /*float: left;*/
     color: #616161;
     font-size: 12px;
     padding: 0 5px;
 
 }
+
 .portfolio-info span {
     color: #16a1f2;
     display: inline-block;
     margin-top: 0;
 }
-.portfolio-block{
+
+.portfolio-block {
     cursor: pointer;
 }
-.portfolio-block img{
+
+.portfolio-block img {
     max-width: 80px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    color: #fff;
+    background-color: #f2784b;
+}
+
+.navbar-inverse {
+    background-color: #ffd600;
+    border-color: #ffd600;
+}
+
+.warning {
+    color: #ffd600;
+}
+
+.green {
+    color: #5bc102;
+}
+
+.error {
+    color: #f03c3d;
+}
+
+.grey {
+    color: grey;
 }

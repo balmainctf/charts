@@ -2,10 +2,15 @@
  * Created by Ken.Cui on 2014/4/22.
  */
 var express = require('express');
-var config=require('./config');
+var config = require('./config');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var flash = require('connect-flash');
+
+var fs = require('fs');
+var accessLog = fs.createWriteStream('access.log', {flags: 'a'});
+var errorLog = fs.createWriteStream('error.log', {flags: 'a'});
 
 var app = express();
 var oneDay = 86400000;
@@ -17,18 +22,29 @@ app.set('port', process.env.PORT || config.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+app.use(flash());
 app.use(express.favicon());
 app.use(express.logger('dev'));
+app.use(express.logger({stream: accessLog}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
-    secret:'echart',
+    secret: 'echart',
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},
 }));
 
+app.use(app.router);
+
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneDay}));
+
+
+app.use(function (err, req, res, next) {
+    var meta = '[' + new Date() + '] ' + req.url + '\n';
+    errorLog.write(meta + err.stack + '\n');
+    next();
+});
 
 // development only
 if ('development' == app.get('env')) {

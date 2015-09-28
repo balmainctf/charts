@@ -8,6 +8,7 @@
     "dependencies": {
         "express": "3.4.7",
         "ejs": "*",
-        "urllib": ">=0.5.3"
+        "urllib": ">=0.5.3",
+        "connect-flash": "*"
     }
 }

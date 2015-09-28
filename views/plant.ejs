@@ -61,7 +61,15 @@
                 <div class="portfolio-info">
                     Status
                     <span>
-                        <%= plant.status %>
+                        <% if(plant.status == 0){ %>
+                        <i class="glyphicon glyphicon-exclamation-sign green"></i>
+                        <% } else if(plant.status == 1){ %>
+                        <i class="glyphicon glyphicon-exclamation-sign warning"></i>
+                        <% } else if(plant.status == 2){ %>
+                        <i class="glyphicon glyphicon-exclamation-sign grey"></i>
+                        <% } else if(plant.status == 3){ %>
+                        <i class="glyphicon glyphicon-exclamation-sign error"></i>
+                        <% } %>
                     </span>
                 </div>
             </div>

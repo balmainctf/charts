@@ -7,13 +7,25 @@ module.exports = function (app) {
     app.get('/plant/:sid/e_power/:period', function (req, res) {
         var period = req.params.period;
         var sid = req.params.sid;
+        var plantName = 'Demo Plant';
         var date = util.format_date(new Date(), period);
 
+        if (req.session.plant) {
+            var plant = req.session.plant;
+            for (var i = 0; i < plant.length; i++) {
+                var id = plant[i].id;
+                if (sid === id) {
+                    plantName = plant[i].name;
+                    break;
+                }
+            }
+        }
         res.render('e_power', {
-            title: "Energy & Power",
+            title: "Overview",
             period: period,
             sid: sid,
             format: date.format,
+            plantName: plantName,
             currDate: date.value
         })
     });
@@ -32,14 +44,8 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/list', function (req, res) {
-
-        res.render('home', {title: 'Station Dynamic Info'});
-//        res.redirect('/e_power/bydays');
-    });
-
     app.get('/', function (req, res) {
-        res.render('index', {title: 'Zevercloud - Index'})
+        res.render('index', {title: 'Zevercloud - Home'})
     });
     app.get('/data/total', function (req, res, next) {
         var url = config.host + 'totalview';
@@ -51,13 +57,19 @@ module.exports = function (app) {
         });
     });
 
+    app.get('/login', checkNotLogin);
     app.get('/login', function (req, res) {
-        res.render('login');
+        res.render('login', {
+            title: 'µÇÂ¼',
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        })
     });
 
+    app.post('/login', checkNotLogin);
     app.post('/login', function (req, res, next) {
-        //req.session.user = "116";
-        //req.flash('success', 'µÇÂ¼³É¹¦!');
+
         var url = config.host + "login";
         var account = req.body.account;
         var pwd = req.body.pwd;
@@ -73,37 +85,53 @@ module.exports = function (app) {
                 res.redirect('/login');
             } else {
                 var user = JSON.parse(data);
+                req.session.user = user;
                 res.redirect('/plant?userId=' + user.userId);
             }
 
         });
     });
 
-    //app.get('/plant', checkLogin);
+    app.get('/logout', checkLogin);
+    app.get('/logout', function (req, res) {
+        req.session.user = null;
+        req.session.plant = null;
+        req.flash('success', 'µÇ³ö³É¹¦!');
+        res.redirect('/');
+    });
+
+    app.get('/plant', checkLogin);
     app.get('/plant', function (req, res, next) {
         var url = config.host + 'plant?userid=' + req.query.userId;
         urllib.request(url, {dataType: 'json'}, function (err, data) {
             if (err) {
                 return next(err);
             }
+            req.session.plant = data;
             res.render('plant', {plants: data});
         });
 
     });
 
+    app.use(function (req, res) {
+        res.render("404");
+    });
+
     function checkLogin(req, res, next) {
         if (!req.session.user) {
-            //req.flash('error', 'Î´µÇÂ¼');
+            req.flash('error', 'Î´µÇÂ¼');
             res.redirect('/login');
+        } else {
+            next();
         }
-        next();
     }
 
     function checkNotLogin(req, res, next) {
         if (req.session.user) {
-            //req.flash('error', 'ÒÑµÇÂ¼');
-            res.redirect('back');
+            req.flash('error', 'ÒÑµÇÂ¼');
+            res.redirect('/plant?userId=' + req.session.user.userId);
+        } else {
+            next();
         }
-        next();
     }
 }
