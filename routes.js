@@ -4,7 +4,6 @@ var util = require('./libs/util');
 
 module.exports = function (app) {
 
-    app.get('/plant/:sid/e_power/:period',checkLogin);
     app.get('/plant/:sid/e_power/:period', function (req, res) {
         var period = req.params.period;
         var sid = req.params.sid;
@@ -21,11 +20,17 @@ module.exports = function (app) {
                 }
             }
         }
+        var userId = '';
+        if (req.session.user) {
+            userId = req.session.user.userId;
+        }
+
+
         res.render('e_power', {
             title: "Overview",
             period: period,
             sid: sid,
-            uid:req.session.user.userId,
+            uid: userId == null ? '' : userId,
             format: date.format,
             plantName: plantName,
             currDate: date.value
